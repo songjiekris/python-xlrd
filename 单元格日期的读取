@@ -1,0 +1,17 @@
+""" 读取sheet对象中的日期 """
+import datetime
+workbook = xlrd.open_workbook("测试.xlsx")
+sheet2_object = workbook.sheet_by_name("Sheet2")
+# value_type = sheet2_object.cell(0, 1).ctype
+value_type = sheet2_object.cell_type(0, 1)
+print(value_type)  # 结果：3
+if value_type == 3:
+    print("单元格数据为日期")
+    cell_value = sheet2_object.cell_value(0, 1)
+    print(cell_value)  # 结果：43506.0
+    date_tuple = xlrd.xldate_as_tuple(cell_value, workbook.datemode)
+    print(date_tuple)  # 结果：(2019, 2, 10, 0, 0, 0)
+    date_value = datetime.date(*date_tuple[:3])
+    print(date_value)  # 结果：2019-02-10
+    date_format = date_value.strftime('%Y/%m/%d')
+    print(date_format)  # 结果：2019/02/10
