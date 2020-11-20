@@ -1,0 +1,16 @@
+""" 获取合并的单元格并读取单元格数据 """
+# 获取xlsx格式的excel文件中的合并单元格
+workbook = xlrd.open_workbook("测试.xlsx")
+sheet2_object = workbook.sheet_by_name("Sheet2")
+print(sheet2_object.merged_cells)   # 结果: [(1, 2, 0, 2), (3, 6, 0, 2)]
+# 获取xls格式的excel文件中的合并单元格
+workbook1 = xlrd.open_workbook("测试.xls", formatting_info=True)
+sheet2_object1 = workbook1.sheet_by_name("Sheet2")
+print(sheet2_object1.merged_cells)   # 结果: [(1, 2, 0, 2), (3, 6, 0, 2)]
+
+# 读取合并单元格数据（仅需“起始行起始列”即可获取数据）
+print(sheet2_object.cell_value(1, 0))   # 结果：合并
+print(sheet2_object.cell_value(3, 0))   # 结果：合并2
+# 或使用for循环获取所有的合并单元格数据
+for (row_start, row_end, col_start, col_end) in sheet2_object.merged_cells:
+    print(sheet2_object.cell_value(rowx=row_start, colx=col_start))
